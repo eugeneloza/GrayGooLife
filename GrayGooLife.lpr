@@ -25,7 +25,7 @@ program GrayGooLife;
 uses
   {$IFDEF useCMEM}cmem,{$ENDIF}
   {$IFDEF UNIX}cthreads,{$ENDIF}
-  game, castle_base, castle_window;
+  Game, castle_base, castle_window;
 
 begin
   { if heap requested to be written in a file }

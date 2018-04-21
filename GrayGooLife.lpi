@@ -4,6 +4,7 @@
     <Version Value="11"/>
     <General>
       <Flags>
+        <MainUnitHasUsesSectionForAllUnits Value="False"/>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
@@ -90,7 +91,7 @@
         <PackageName Value="castle_base"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="GrayGooLife.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -104,6 +105,11 @@
         <Filename Value="compilerconfig.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="battlefield.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="BattleField"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

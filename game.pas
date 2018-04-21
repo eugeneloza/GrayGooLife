@@ -15,7 +15,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.}
 
 {---------------------------------------------------------------------------}
 
-(* Init file of the game. Here everything starts. *)
+(* Core file, managing input/output *)
 
 
 {$INCLUDE compilerconfig.inc}
@@ -33,12 +33,13 @@ var
 implementation
 
 uses
-  SysUtils, CastleApplicationProperties, CastleLog;
+  SysUtils, CastleApplicationProperties, CastleLog,
+  BattleField;
 
 
 procedure doRender(Container: TUIContainer);
 begin
-
+  DrawBattleField;
 end;
 
 {---------------------------------------------------------------------------}
@@ -50,7 +51,7 @@ end;
 
 procedure ApplicationInitialize;
 begin
-  Window.OnRender := doRender;
+  Window.OnRender := @doRender;
 
 end;
 
