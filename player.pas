@@ -33,7 +33,7 @@ type
 
 var
   { stores information on the players }
-  Player: array [TOwner] of TPlayer;
+  Players: array [TOwner] of TPlayer;
 
 //set all players to zero resources
 procedure ResetPlayers;
@@ -45,7 +45,7 @@ var
 begin
   for o in TOwner do
   begin
-    Player[o].Resource := 0;
+    Players[o].Resource := 0;
   end;
 end;
 
