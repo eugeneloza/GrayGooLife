@@ -45,11 +45,14 @@ type
 type
   TBattleField = class(TObject)
   strict private
+    isInitialized: boolean;
     FArray: TBattleFieldArray;
+    function ZeroArray(const aX, aY: integer): TBattleFieldArray;
   public
     SizeX, SizeY: integer;
     { resizes FArray to (SizeX, SizeY) and resets all cells to ownerNone }
     procedure Clear;
+    procedure NextTurn;
   end;
 
 
@@ -61,15 +64,35 @@ begin
 
 end;
 
-procedure TBattleField.Clear;
+function TBattleField.ZeroArray(const aX, aY: integer): TBattleFieldArray;
 var
   ix, iy: integer;
 begin
-  SetLength(FArray, SizeX);
-  for ix := 0 to Pred(SizeX) do
+  SetLength(Result, aX);
+  for ix := 0 to Pred(aX) do
   begin
-    SetLength(FArray[ix], SizeY);
+    SetLength(Result[ix], aY);
   end;
+end;
+
+procedure TBattleField.NextTurn;
+var
+  tmpArray: TBattleFieldArray;
+begin
+  if isInitialized then
+  begin
+    tmpArray := ZeroArray(SizeX, SizeY);
+
+
+    //FArray := nil;
+    FArray := tmpArray;
+  end;
+end;
+
+procedure TBattleField.Clear;
+begin
+  isInitialized := true;
+  FArray := ZeroArray(SizeX, SizeY);
 end;
 
 
