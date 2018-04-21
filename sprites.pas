@@ -28,9 +28,9 @@ uses
 
 type
   {ownerNone is an empty cell
-   ownerPlayer is a green player cell
-   ownerGrayGoo is a gray GrayGoo cell
-   ownerAI is enemy AI cell }
+   ownerGray is a gray GrayGoo cell
+   ownerGreen is a green player cell
+   other owners are enemy AI cell }
   TOwner = (ownerNone, ownerGray, ownerGreen, ownerRed, ownerBlue, ownerViolet, ownerCyan, ownerYellow);
 
 var

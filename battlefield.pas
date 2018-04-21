@@ -28,7 +28,7 @@ uses
   Sprites;
 
 const
-  CriticalAge = 20; //how many turns will pass before the cell will turn into goo
+  CriticalAge = 8; //how many turns will pass before the cell will turn into goo
 
   TurnTime = 0.3; //in seconds
 
@@ -73,12 +73,13 @@ var
 
 implementation
 uses
-  CastleRandom,
+  CastleRandom, CastleVectors,
   GooWindow;
 
 procedure TBattleField.DrawCell(const aX, aY: integer);
 var
   sx, sy, wx, wy: single;
+  AgeShade: single;
 begin
   sx := ax * MapWidth / SizeX;
   sy := ay * MapHeight / SizeY;
@@ -86,7 +87,11 @@ begin
   wy := (ay+1) * MapHeight / SizeY - sy;
   EmptyCell.Draw(sx, sy, wx, wy);
   if FArray[aX, aY].Owner <> ownerNone then
+  begin
+    AgeShade := CriticalAge / (sqrt(FArray[aX, aY].Age) + CriticalAge);
+    Cell[FArray[aX, aY].Owner].Color := Vector4(AgeShade, AgeShade, AgeShade, 1.0);
     Cell[FArray[aX, aY].Owner].Draw(sx, sy, wx, wy);
+  end;
 end;
 
 procedure TBattleField.Draw;
@@ -222,6 +227,8 @@ end;
 function TBattleField.GetOlder(const aCell: TCellRec): TCellRec;
 begin
   Result := aCell;
+  if Result.Owner = ownerGray then
+    Result.Age := 0;
   inc(Result.Age);
 end;
 
