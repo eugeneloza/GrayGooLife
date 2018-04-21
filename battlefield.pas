@@ -114,29 +114,22 @@ function TBattleField.ZeroArray(const aX, aY: integer): TBattleFieldArray;
 var
   ix: integer;
   iy: integer;
+  o: TOwner;
 begin
   SetLength(Result, aX);
   for ix := 0 to Pred(aX) do
   begin
     SetLength(Result[ix], aY);
     for iy := 0 to Pred(aY) do
-    if Rand.Random < 0.1 then
-      Result[ix, iy].Owner := ownerBlue
-    else
-    if Rand.Random < 0.1 then
-      Result[ix, iy].Owner := ownerRed
-    else
-    if Rand.Random < 0.1 then
-      Result[ix, iy].Owner := ownerGreen
-    else
-    if Rand.Random < 0.1 then
-      Result[ix, iy].Owner := ownerCyan
-    else
-    if Rand.Random < 0.1 then
-      Result[ix, iy].Owner := ownerYellow
-    else
       Result[ix, iy].Owner := ownerNone
   end;
+
+  o := ownerGreen;
+  Result[20, 20].Owner := o;
+  Result[21, 20].Owner := o;
+  Result[22, 20].Owner := o;
+  Result[21, 21].Owner := o;
+
 end;
 
 {----------------------------------------------------------------------------}
@@ -194,17 +187,21 @@ begin
 
   Nearby := 0;
   for o in TOwner do
-    if (o <> ownerNone) and (o <> ownerGray) and (count[o]>0) then
+    if (o <> ownerNone) and (o <> ownerGray) and (count[o] > 0) then
       inc(Nearby);
 
   //birth
-  if (TotalNeighbours = 3) and (FArray[aX, aY].Owner = ownerNone) then
+  if FArray[aX, aY].Owner = ownerNone then
   begin
-    //determine new cell owner
-    if (Nearby = 1) then
-      Result := BestOwner  //if a single owner around, it will be his cell
-    else
-      Result := ownerGray; //otherwise it's a gray goo
+    Result := ownerNone;
+    if (TotalNeighbours = 3) then
+    begin
+      //determine new cell owner
+      if (Nearby = 1) then
+        Result := BestOwner  //if a single owner around, it will be his cell
+      else
+        Result := ownerGray; //otherwise it's a gray goo
+    end;
     Exit;
   end;
 
