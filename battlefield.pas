@@ -30,6 +30,8 @@ uses
 const
   CriticalAge = 20; //how many turns will pass before the cell will turn into goo
 
+  TurnTime = 0.3; //in seconds
+
 type
   TCellRec = record
     Owner: TOwner;
@@ -67,9 +69,11 @@ type
 var
   Life: TBattleField;
   DeltaTime: TFloatTime;
+  TotalTime: TFloatTime;
 
 implementation
 uses
+  CastleRandom,
   GooWindow;
 
 procedure TBattleField.DrawCell(const aX, aY: integer);
@@ -109,7 +113,22 @@ begin
   begin
     SetLength(Result[ix], aY);
     for iy := 0 to Pred(aY) do
-      Result[ix, iy].Owner := ownerBlue;
+    if Rand.Random < 0.1 then
+      Result[ix, iy].Owner := ownerBlue
+    else
+    if Rand.Random < 0.1 then
+      Result[ix, iy].Owner := ownerRed
+    else
+    if Rand.Random < 0.1 then
+      Result[ix, iy].Owner := ownerGreen
+    else
+    if Rand.Random < 0.1 then
+      Result[ix, iy].Owner := ownerCyan
+    else
+    if Rand.Random < 0.1 then
+      Result[ix, iy].Owner := ownerYellow
+    else
+      Result[ix, iy].Owner := ownerNone
   end;
 end;
 
@@ -126,7 +145,7 @@ var
   BestOwner: TOwner;
   function GetCellSafe: TOwner;
   begin
-    if (ax + dx >= 0) and (ax + dy < SizeX) and
+    if (ax + dx >= 0) and (ax + dx < SizeX) and
        (ay + dy >= 0) and (ay + dy < SizeY) then
          Result := FArray[ax + dx, ay + dy].Owner
     else
