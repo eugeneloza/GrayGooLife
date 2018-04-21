@@ -28,10 +28,17 @@ interface
 implementation
 
 uses
-  GooWindow, CastleWindow,
+  GooWindow, CastleWindow, CastleVectors, CastleFilesUtils,
   SysUtils, CastleApplicationProperties, CastleLog, CastleTimeUtils,
-  BattleField, Sprites;
+  CastleSoundEngine,
+  BattleField, Sprites, Global;
 
+const
+  SoundBeat = 60/100/2; {100bpm}
+
+var
+  Buffer: TSoundBuffer;
+  NextBeat: TFloatTime;
 
 procedure doRender(Container: TUIContainer);
 begin
@@ -41,11 +48,15 @@ begin
     Life.Draw;
 
   if TotalTime < 0 then
-    TotalTime := 0;
-  TotalTime += DeltaTime;
-  if TotalTime > TurnTime then
   begin
+    NextBeat := SoundBeat;
+    //SoundEngine.PlaySound(Buffer, false, true, 0, 1, 1, 1, Vector3(0,0,0));
     TotalTime := 0;
+  end;
+  TotalTime += DeltaTime;
+  if TotalTime > NextBeat then
+  begin
+    NextBeat += SoundBeat;
     Life.NextTurn;
   end;
 
@@ -65,6 +76,9 @@ begin
   Window.ResizeAllowed := raOnlyAtOpen;
   GetMapScale;
   LoadSprites;
+
+  SoundEngine.MinAllocatedSources := 1;
+  Buffer := SoundEngine.LoadBuffer(ApplicationData('Evasion_[LOOP]_CC-BY_by_Matthew_Pablo.ogg'));
 
   Life := TBattleField.Create;
   Life.SizeX := 40;
