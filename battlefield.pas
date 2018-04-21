@@ -71,22 +71,24 @@ procedure TBattleField.DrawCell(const aX, aY: integer);
 var
   sx, sy, wx, wy: single;
 begin
-  sx := ax * Window.Width / SizeX;
-  sy := ay * Window.Height / SizeY;
-  wx := (ax+1) * Window.Width / SizeX - sx;
-  wy := (ay+1) * Window.Height / SizeY - sy;
+  sx := ax * MapWidth / SizeX;
+  sy := ay * MapHeight / SizeY;
+  wx := (ax+1) * MapWidth / SizeX - sx;
+  wy := (ay+1) * MapHeight / SizeY - sy;
   EmptyCell.Draw(sx, sy, wx, wy);
   if FArray[aX, aY].Owner <> ownerNone then
-  begin
-    Cell[FArray[aX, aY].Owner].Update(DeltaTime);
     Cell[FArray[aX, aY].Owner].Draw(sx, sy, wx, wy);
-  end;
 end;
 
 procedure TBattleField.Draw;
 var
   ix, iy: integer;
+  o: TOwner;
 begin
+  for o in TOwner do
+    if Cell[o] <> nil then
+      Cell[o].Update(DeltaTime);
+
   for ix := 0 to Pred(SizeX) do
     for iy := 0 to Pred(SizeY) do
       DrawCell(ix, iy);
@@ -102,7 +104,7 @@ begin
   begin
     SetLength(Result[ix], aY);
     for iy := 0 to Pred(aY) do
-      Result[ix, iy].Owner := ownerNone;
+      Result[ix, iy].Owner := ownerBlue;
   end;
 end;
 

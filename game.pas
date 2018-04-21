@@ -52,11 +52,12 @@ begin
   Window.OnRender := @doRender;
   Window.DoubleBuffer := true;
   Window.ResizeAllowed := raOnlyAtOpen;
+  GetMapScale;
   LoadSprites;
 
   Life := TBattleField.Create;
-  Life.SizeX := 10;
-  Life.SizeY := 10;
+  Life.SizeX := 40;
+  Life.SizeY := 40;
   Life.Clear;
 end;
 

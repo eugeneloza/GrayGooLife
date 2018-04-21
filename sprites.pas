@@ -44,15 +44,20 @@ uses
   SysUtils, CastleFilesUtils;
 
 procedure LoadSprites;
+var
+  o: TOwner;
 begin
   EmptyCell := TGlImage.Create(ApplicationData('Empty.png'));
-  Cell[ownerGray] := TSprite.Create(ApplicationData('Goo.png'), 10, 10, 1, false, true, true);
-  Cell[ownerGreen] := TSprite.Create(ApplicationData('Green.png'), 10, 10, 1, false, true, true);
-  Cell[ownerRed] := TSprite.Create(ApplicationData('Red.png'), 10, 10, 1, false, true, true);
-  Cell[ownerBlue] := TSprite.Create(ApplicationData('Blue.png'), 10, 10, 1, false, true, true);
-  Cell[ownerViolet] := TSprite.Create(ApplicationData('Violet.png'), 10, 10, 1, false, true, true);
-  Cell[ownerCyan] := TSprite.Create(ApplicationData('Cyan.png'), 10, 10, 1, false, true, true);
-  Cell[ownerYellow] := TSprite.Create(ApplicationData('Yellow.png'), 10, 10, 1, false, true, true);
+  Cell[ownerGray] := TSprite.Create(ApplicationData('Goo.png'), 10, 10, 1, true, true, true);
+  Cell[ownerGreen] := TSprite.Create(ApplicationData('Green.png'), 10, 10, 1, true, true, true);
+  Cell[ownerRed] := TSprite.Create(ApplicationData('Red.png'), 10, 10, 1, true, true, true);
+  Cell[ownerBlue] := TSprite.Create(ApplicationData('Blue.png'), 10, 10, 1, true, true, true);
+  Cell[ownerViolet] := TSprite.Create(ApplicationData('Violet.png'), 10, 10, 1, true, true, true);
+  Cell[ownerCyan] := TSprite.Create(ApplicationData('Cyan.png'), 10, 10, 1, true, true, true);
+  Cell[ownerYellow] := TSprite.Create(ApplicationData('Yellow.png'), 10, 10, 1, true, true, true);
+  for o in TOwner do
+    if Cell[o] <> nil then
+      Cell[o].FramesPerSecond := 10;
 end;
 
 procedure FreeSprites;
