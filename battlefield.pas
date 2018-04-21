@@ -25,12 +25,12 @@ interface
 
 uses
   CastleTimeUtils,
-  Sprites;
+  Global;
 
 const
-  CriticalAge = 4; //how many turns will pass before the cell will turn into goo
+  CriticalAge = 3; //how many turns will pass before the cell will turn into goo
 
-  TurnTime = 0.3; //in seconds
+  TurnTime = 60/100/2; //in seconds
 
 type
   TCellRec = record
@@ -54,6 +54,7 @@ type
     { main procedure. Calculates the number of neighbours and
       result is what sort of cell it will be next turn (none or playerID)}
     function GetNeighbours(const aX, aY: integer): TOwner;
+    { cell gets older }
     function GetOlder(const aCell: TCellRec): TCellRec;
   public
     SizeX, SizeY: integer;
@@ -68,13 +69,11 @@ type
 
 var
   Life: TBattleField;
-  DeltaTime: TFloatTime;
-  TotalTime: TFloatTime;
 
 implementation
 uses
   CastleRandom, CastleVectors,
-  GooWindow;
+  GooWindow, Sprites, Player;
 
 procedure TBattleField.DrawCell(const aX, aY: integer);
 var
@@ -88,7 +87,7 @@ begin
   EmptyCell.Draw(sx, sy, wx, wy);
   if FArray[aX, aY].Owner <> ownerNone then
   begin
-    AgeShade := CriticalAge / (FArray[aX, aY].Age + CriticalAge);
+    AgeShade := CriticalAge / (sqrt(FArray[aX, aY].Age) + CriticalAge);
     if AgeShade < 0.5 then
       AgeShade := 0.5;
 

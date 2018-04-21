@@ -24,19 +24,16 @@ unit Sprites;
 interface
 
 uses
-  CastleGLImages;
-
-type
-  {ownerNone is an empty cell
-   ownerGray is a gray GrayGoo cell
-   ownerGreen is a green player cell
-   other owners are enemy AI cell }
-  TOwner = (ownerNone, ownerGray, ownerGreen, ownerRed, ownerBlue, ownerViolet, ownerCyan, ownerYellow);
+  CastleGLImages,
+  Global;
 
 var
-  Cell: Array[TOwner] of TSprite;
+  { sprite of a living cell }
+  Cell: array [TOwner] of TSprite;
+  { floor sprite }
   EmptyCell: TGLImage;
 
+{ load/free sprites }
 procedure LoadSprites;
 procedure FreeSprites;
 implementation

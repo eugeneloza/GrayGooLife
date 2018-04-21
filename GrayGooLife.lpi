@@ -91,7 +91,7 @@
         <PackageName Value="castle_base"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="8">
       <Unit0>
         <Filename Value="GrayGooLife.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -120,6 +120,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="GooWindow"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="player.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Player"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="global.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Global"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
