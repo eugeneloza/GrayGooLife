@@ -27,16 +27,17 @@ uses
   CastleTimeUtils,
   Sprites;
 
+const
+  CriticalAge = 20; //how many turns will pass before the cell will turn into goo
+
 type
-  TFieldRec = record
+  TCellRec = record
     Owner: TOwner;
     Age: integer;
-    Shade: byte;
-    ShadeSign: shortint;
   end;
 
 type
-  TBattleFieldArray = array of array of TFieldRec;
+  TBattleFieldArray = array of array of TCellRec;
 
 type
   TBattleField = class(TObject)
@@ -48,6 +49,10 @@ type
     { cycle cell color }
     //procedure CycleCell(const aX, aY: integer);
     procedure DrawCell(const aX, aY: integer);
+    { main procedure. Calculates the number of neighbours and
+      result is what sort of cell it will be next turn (none or playerID)}
+    function GetNeighbours(const aX, aY: integer): TOwner;
+    function GetOlder(const aCell: TCellRec): TCellRec;
   public
     SizeX, SizeY: integer;
     { resizes FArray to (SizeX, SizeY) and resets all cells to ownerNone }
@@ -108,15 +113,128 @@ begin
   end;
 end;
 
+{----------------------------------------------------------------------------}
+
+function TBattleField.GetNeighbours(const aX, aY: integer): TOwner;
+var
+  dx, dy: integer;
+  count: array[TOwner] of integer;
+  o: TOwner;
+  TotalNeighbours: integer;
+  MaxCount: integer;
+  Nearby: integer;
+  BestOwner: TOwner;
+  function GetCellSafe: TOwner;
+  begin
+    if (ax + dx >= 0) and (ax + dy < SizeX) and
+       (ay + dy >= 0) and (ay + dy < SizeY) then
+         Result := FArray[ax + dx, ay + dy].Owner
+    else
+      Result := ownerNone;
+  end;
+begin
+  for o in TOwner do
+    count[o] := 0;
+
+  for dx := -1 to 1 do
+    for dy := -1 to 1 do
+      if (dx<>0) or (dy<>0) then
+        inc(count[GetCellSafe]);
+
+  TotalNeighbours := 0;
+  for o in TOwner do
+    if o <> ownerNone then
+      inc(TotalNeighbours, count[o]);
+
+  if (TotalNeighbours < 2) or (TotalNeighbours > 3) then
+  begin
+    Result := ownerNone; {cell dies}
+    Exit;
+  end;
+
+  BestOwner := FArray[aX, aY].Owner;
+  if BestOwner = ownerGray then
+    MaxCount := 0
+  else
+    MaxCount := 1; // owned cells are less likely to change ownership
+
+  for o in TOwner do
+    if (o <> ownerNone) and (o <> ownerGray) then
+      if count[o] > MaxCount then
+      begin
+        MaxCount := count[o];
+        BestOwner := o;
+      end;
+
+  Nearby := 0;
+  for o in TOwner do
+    if (o <> ownerNone) and (o <> ownerGray) and (count[o]>0) then
+      inc(Nearby);
+
+  //birth
+  if (TotalNeighbours = 3) and (FArray[aX, aY].Owner = ownerNone) then
+  begin
+    //determine new cell owner
+    if (Nearby = 1) then
+      Result := BestOwner  //if a single owner around, it will be his cell
+    else
+      Result := ownerGray; //otherwise it's a gray goo
+    Exit;
+  end;
+
+  ///change of ownership
+  if FArray[aX, aY].Owner = ownerGray then
+  begin
+    if Nearby = 1 then
+      Result := BestOwner //if gray goo's neighbours are only one-colored it'll change ownership
+    else
+      Result := ownerGray; //otherwise it remains as is
+  end
+  else
+  begin
+    //it's a normal cell, most complex ownership mechanism.
+    if MaxCount > 1 then
+      Result := BestOwner //a cell can't resist two or three neighbours;
+    else
+      Result := FArray[aX, aY].Owner; //otherwise it persists
+  end;
+end;
+
+function TBattleField.GetOlder(const aCell: TCellRec): TCellRec;
+begin
+  Result := aCell;
+  inc(Result.Age);
+end;
+
 procedure TBattleField.NextTurn;
 var
   tmpArray: TBattleFieldArray;
+  ix, iy: integer;
 begin
   if isInitialized then
   begin
     tmpArray := ZeroArray(SizeX, SizeY);
 
-    ///CycleCell(x,y);
+    //let the cells get older
+    for ix := 0 to Pred(SizeX) do
+      for iy := 0 to Pred(SizeY) do
+      begin
+        FArray[ix, iy] := GetOlder(FArray[ix, iy]);
+        //if the cell is too old it'll turn into Goo
+        //but will be revived if there are friends nearby
+        if FArray[ix, iy].Age > CriticalAge then
+          FArray[ix, iy].Owner := ownerGray;
+      end;
+
+    //now the main Life algorithm
+    for ix := 0 to Pred(SizeX) do
+      for iy := 0 to Pred(SizeY) do
+      begin
+        tmpArray[ix, iy] := FArray[ix, iy];
+        tmpArray[ix, iy].Owner := GetNeighbours(ix, iy); //sets new ownership
+        if FArray[ix, iy].Owner = ownerNone then
+          tmpArray[ix, iy].Age := 0; //this is a newborn or empty cell
+      end;
 
     //FArray := nil;
     FArray := tmpArray;
