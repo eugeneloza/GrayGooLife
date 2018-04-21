@@ -17,26 +17,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.}
 
 (* Management and drawing of the battlefield *)
 
-unit BattleField;
+{$INCLUDE compilerconfig.inc}
 
-{$mode objfpc}{$H+}
+unit BattleField;
 
 interface
 
 uses
-  CastleGLImages;
-
-type
-  {ownerNone is an empty cell
-   ownerPlayer is a green player cell
-   ownerGrayGoo is a gray GrayGoo cell
-   ownerAI is enemy AI cell }
-  TOwner = (ownerNone, ownerPlayer, ownerGrayGoo, ownerAI);
+  CastleTimeUtils,
+  Sprites;
 
 type
   TFieldRec = record
     Owner: TOwner;
     Age: integer;
+    Shade: byte;
+    ShadeSign: shortint;
   end;
 
 type
@@ -47,25 +43,44 @@ type
   strict private
     isInitialized: boolean;
     FArray: TBattleFieldArray;
+    { return an epmty TBattleFieldArray }
     function ZeroArray(const aX, aY: integer): TBattleFieldArray;
+    { cycle cell color }
+    //procedure CycleCell(const aX, aY: integer);
     procedure DrawCell(const aX, aY: integer);
   public
     SizeX, SizeY: integer;
     { resizes FArray to (SizeX, SizeY) and resets all cells to ownerNone }
     procedure Clear;
+    { process a game step }
     procedure NextTurn;
+    { draw the game screen }
     procedure Draw;
   end;
 
 
 var
   Life: TBattleField;
+  DeltaTime: TFloatTime;
 
 implementation
+uses
+  GooWindow;
 
 procedure TBattleField.DrawCell(const aX, aY: integer);
+var
+  sx, sy, wx, wy: single;
 begin
-
+  sx := ax * Window.Width / SizeX;
+  sy := ay * Window.Height / SizeY;
+  wx := (ax+1) * Window.Width / SizeX - sx;
+  wy := (ay+1) * Window.Height / SizeY - sy;
+  EmptyCell.Draw(sx, sy, wx, wy);
+  if FArray[aX, aY].Owner <> ownerNone then
+  begin
+    Cell[FArray[aX, aY].Owner].Update(DeltaTime);
+    Cell[FArray[aX, aY].Owner].Draw(sx, sy, wx, wy);
+  end;
 end;
 
 procedure TBattleField.Draw;
@@ -80,11 +95,14 @@ end;
 function TBattleField.ZeroArray(const aX, aY: integer): TBattleFieldArray;
 var
   ix: integer;
+  iy: integer;
 begin
   SetLength(Result, aX);
   for ix := 0 to Pred(aX) do
   begin
     SetLength(Result[ix], aY);
+    for iy := 0 to Pred(aY) do
+      Result[ix, iy].Owner := ownerNone;
   end;
 end;
 
@@ -96,6 +114,7 @@ begin
   begin
     tmpArray := ZeroArray(SizeX, SizeY);
 
+    ///CycleCell(x,y);
 
     //FArray := nil;
     FArray := tmpArray;

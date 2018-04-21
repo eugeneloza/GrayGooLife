@@ -17,28 +17,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.}
 
 (* Core file, managing input/output *)
 
-
 {$INCLUDE compilerconfig.inc}
 
 unit Game;
 
 interface
 
-uses
-  CastleWindow;
 
-var
-  Window: TCastleWindowCustom;
 
 implementation
 
 uses
-  SysUtils, CastleApplicationProperties, CastleLog,
-  BattleField;
+  GooWindow, CastleWindow,
+  SysUtils, CastleApplicationProperties, CastleLog, CastleTimeUtils,
+  BattleField, Sprites;
 
 
 procedure doRender(Container: TUIContainer);
 begin
+  DeltaTime := Window.Fps.SecondsPassed;
   if Life <> nil then
     Life.Draw;
 end;
@@ -53,7 +50,14 @@ end;
 procedure ApplicationInitialize;
 begin
   Window.OnRender := @doRender;
+  Window.DoubleBuffer := true;
+  Window.ResizeAllowed := raOnlyAtOpen;
+  LoadSprites;
 
+  Life := TBattleField.Create;
+  Life.SizeX := 10;
+  Life.SizeY := 10;
+  Life.Clear;
 end;
 
 procedure InitAll;
@@ -69,7 +73,8 @@ end;
 
 procedure FreeAll;
 begin
-
+  FreeSprites;
+  FreeAndNil(Life);
 end;
 
 initialization
