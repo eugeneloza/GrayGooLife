@@ -98,6 +98,7 @@
       <Unit1>
         <Filename Value="game.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="Game"/>
       </Unit1>
       <Unit2>
         <Filename Value="compilerconfig.inc"/>

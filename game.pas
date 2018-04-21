@@ -20,14 +20,61 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.}
 
 {$INCLUDE compilerconfig.inc}
 
-unit game;
+unit Game;
 
 interface
 
 uses
-  Classes, SysUtils;
+  CastleWindow;
+
+var
+  Window: TCastleWindowCustom;
 
 implementation
+
+uses
+  SysUtils, CastleApplicationProperties, CastleLog;
+
+
+procedure doRender(Container: TUIContainer);
+begin
+
+end;
+
+{---------------------------------------------------------------------------}
+
+function GetApplicationName: string;
+begin
+  Result := 'Gray Goo Life';
+end;
+
+procedure ApplicationInitialize;
+begin
+  Window.OnRender := doRender;
+
+end;
+
+procedure InitAll;
+begin
+  InitializeLog(nil, ltTime);
+  ApplicationProperties(true).ApplicationName := GetApplicationName;
+  OnGetApplicationName := @GetApplicationName;
+  Window := TCastleWindowCustom.Create(Application);
+  Application.MainWindow := Window;
+  Application.OnInitialize := @ApplicationInitialize;
+  Window.Caption := GetApplicationName;
+end;
+
+procedure FreeAll;
+begin
+
+end;
+
+initialization
+  InitAll;
+
+finalization
+  FreeAll;
 
 end.
 
