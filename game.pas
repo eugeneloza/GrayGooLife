@@ -36,6 +36,10 @@ uses
 procedure doRender(Container: TUIContainer);
 begin
   DeltaTime := Window.Fps.SecondsPassed;
+
+  if Life <> nil then
+    Life.Draw;
+
   if TotalTime < 0 then
     TotalTime := 0;
   TotalTime += DeltaTime;
@@ -45,8 +49,6 @@ begin
     Life.NextTurn;
   end;
 
-  if Life <> nil then
-    Life.Draw;
 end;
 
 {---------------------------------------------------------------------------}

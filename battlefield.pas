@@ -28,7 +28,7 @@ uses
   Sprites;
 
 const
-  CriticalAge = 8; //how many turns will pass before the cell will turn into goo
+  CriticalAge = 4; //how many turns will pass before the cell will turn into goo
 
   TurnTime = 0.3; //in seconds
 
@@ -88,7 +88,10 @@ begin
   EmptyCell.Draw(sx, sy, wx, wy);
   if FArray[aX, aY].Owner <> ownerNone then
   begin
-    AgeShade := CriticalAge / (sqrt(FArray[aX, aY].Age) + CriticalAge);
+    AgeShade := CriticalAge / (FArray[aX, aY].Age + CriticalAge);
+    if AgeShade < 0.5 then
+      AgeShade := 0.5;
+
     Cell[FArray[aX, aY].Owner].Color := Vector4(AgeShade, AgeShade, AgeShade, 1.0);
     Cell[FArray[aX, aY].Owner].Draw(sx, sy, wx, wy);
   end;
@@ -227,9 +230,9 @@ end;
 function TBattleField.GetOlder(const aCell: TCellRec): TCellRec;
 begin
   Result := aCell;
-  if Result.Owner = ownerGray then
-    Result.Age := 0;
   inc(Result.Age);
+  if (Result.Owner = ownerGray) or (Result.Owner = ownerNone) then
+    Result.Age := 0;
 end;
 
 procedure TBattleField.NextTurn;
@@ -258,8 +261,6 @@ begin
       begin
         tmpArray[ix, iy] := FArray[ix, iy];
         tmpArray[ix, iy].Owner := GetNeighbours(ix, iy); //sets new ownership
-        if FArray[ix, iy].Owner = ownerNone then
-          tmpArray[ix, iy].Age := 0; //this is a newborn or empty cell
       end;
 
     //FArray := nil;
