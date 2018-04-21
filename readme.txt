@@ -21,6 +21,19 @@ If a cell of color A has 2 cells of color B and one of color A it becomes of col
 If a living cell was born with non-single-colored cells it is a GrayGoo (gray color).
 If a GrayGoo cell touches a colored cell it becomes its color in case there are no other colors around.
 
+If a cell gets too old it dies.
+
+Strategy elements:
+
+Each living cell of player's color produces 1 point of resource per turn.
+Blinkers are the main power sources as they additionally produce 100 points of resource per 2 turns (when they are in vertical state).
+Gliders are the main attack force capable of destroying enemy fortifications.
+Still lifes are used as defensive structures.
+
+if a player looses all cells of his color, he looses it all.
+
+# Installation
+
 No installation is required, just extract all files to one folder and play.
 You may need to set "executable" bit in Linux.
 
