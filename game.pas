@@ -39,7 +39,8 @@ uses
 
 procedure doRender(Container: TUIContainer);
 begin
-  DrawBattleField;
+  if Life <> nil then
+    Life.Draw;
 end;
 
 {---------------------------------------------------------------------------}

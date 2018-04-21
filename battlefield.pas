@@ -48,25 +48,38 @@ type
     isInitialized: boolean;
     FArray: TBattleFieldArray;
     function ZeroArray(const aX, aY: integer): TBattleFieldArray;
+    procedure DrawCell(const aX, aY: integer);
   public
     SizeX, SizeY: integer;
     { resizes FArray to (SizeX, SizeY) and resets all cells to ownerNone }
     procedure Clear;
     procedure NextTurn;
+    procedure Draw;
   end;
 
 
-procedure DrawBattleField;
+var
+  Life: TBattleField;
+
 implementation
 
-procedure DrawBattleField;
+procedure TBattleField.DrawCell(const aX, aY: integer);
 begin
 
 end;
 
-function TBattleField.ZeroArray(const aX, aY: integer): TBattleFieldArray;
+procedure TBattleField.Draw;
 var
   ix, iy: integer;
+begin
+  for ix := 0 to Pred(SizeX) do
+    for iy := 0 to Pred(SizeY) do
+      DrawCell(ix, iy);
+end;
+
+function TBattleField.ZeroArray(const aX, aY: integer): TBattleFieldArray;
+var
+  ix: integer;
 begin
   SetLength(Result, aX);
   for ix := 0 to Pred(aX) do
