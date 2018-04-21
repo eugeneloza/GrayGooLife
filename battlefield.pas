@@ -264,6 +264,11 @@ begin
 
     //FArray := nil;
     FArray := tmpArray;
+
+    for ix := 0 to Pred(SizeX) do
+      for iy := 0 to Pred(SizeY) do
+        Players[FArray[ix, iy].Owner].Resource += 1;
+
   end;
 end;
 

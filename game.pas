@@ -31,7 +31,9 @@ uses
   GooWindow, CastleWindow, CastleVectors, CastleFilesUtils,
   SysUtils, CastleApplicationProperties, CastleLog, CastleTimeUtils,
   CastleSoundEngine,
-  BattleField, Sprites, Global;
+  CastleControls, CastleColors,//for UIFont
+  CastleGLUtils,//for RenderContext
+  BattleField, Sprites, Global, Player;
 
 const
   SoundBeat = 60/100/2; {100bpm}
@@ -42,6 +44,8 @@ var
 
 procedure doRender(Container: TUIContainer);
 begin
+  RenderContext.Clear([cbColor], Black);
+
   DeltaTime := Window.Fps.SecondsPassed;
 
   if Life <> nil then
@@ -60,6 +64,8 @@ begin
     Life.NextTurn;
   end;
 
+  //ui
+  UIFont.Print(MapWidth+10, 0, White, 'Resource: ' + IntToSTr(Round(Players[ownerGreen].Resource)));
 end;
 
 {---------------------------------------------------------------------------}
