@@ -21,7 +21,7 @@ If a cell of color A has 2 cells of color B and one of color A it becomes of col
 If a living cell was born with non-single-colored cells it is a GrayGoo (gray color).
 If a GrayGoo cell touches a colored cell it becomes its color in case there are no other colors around.
 
-If a cell gets too old it dies.
+If a cell gets too old it becomes a GrayGoo cell.
 
 Strategy elements:
 
