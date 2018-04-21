@@ -27,8 +27,11 @@ Strategy elements:
 
 Each living cell of player's color produces 1 point of resource per turn.
 Blinkers are the main power sources as they additionally produce 100 points of resource per 2 turns (when they are in vertical state).
+
 Gliders are the main attack force capable of destroying enemy fortifications.
+Lightweight spaceship are expensive weapon, but can be used to attack enemies from sides.
 Still lifes are used as defensive structures.
+Toad and Beacon can be used to extend the ability of the player to locate his objects.
 
 if a player looses all cells of his color, he looses it all.
 
