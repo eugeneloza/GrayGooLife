@@ -24,7 +24,6 @@ unit BattleField;
 interface
 
 uses
-  CastleTimeUtils,
   Global;
 
 const
@@ -130,6 +129,29 @@ begin
   Result[22, 20].Owner := o;
   Result[21, 21].Owner := o;
 
+  o := ownerRed;
+  Result[25, 25].Owner := o;
+  Result[26, 25].Owner := o;
+  Result[27, 25].Owner := o;
+  Result[26, 26].Owner := o;
+
+  o := ownerBlue;
+  Result[30, 22].Owner := o;
+  Result[31, 22].Owner := o;
+  Result[32, 22].Owner := o;
+  Result[31, 23].Owner := o;
+
+  o := ownerYellow;
+  Result[14, 22].Owner := o;
+  Result[15, 22].Owner := o;
+  Result[16, 22].Owner := o;
+  Result[15, 23].Owner := o;
+
+  o := ownerCyan;
+  Result[14, 17].Owner := o;
+  Result[15, 17].Owner := o;
+  Result[16, 17].Owner := o;
+  Result[15, 18].Owner := o;
 end;
 
 {----------------------------------------------------------------------------}
@@ -172,6 +194,9 @@ begin
   end;
 
   BestOwner := FArray[aX, aY].Owner;
+  if BestOwner = ownerNone then
+    BestOwner := ownerGray;
+
   if BestOwner = ownerGray then
     MaxCount := 0
   else
