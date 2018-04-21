@@ -35,5 +35,7 @@ vorbisfile.dll
 wrap_oal.dll
 zlib1.dll
 
-# Linux executables
+# Executables
 
+GrayGooLife
+GrayGooLife.exe

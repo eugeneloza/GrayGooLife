@@ -12,3 +12,8 @@ find . -name '.fuse_hidden*' -delete
 
 rm *.log
 rm heap.trc
+
+# Executables
+
+rm GrayGooLife
+rm GrayGooLife.exe
