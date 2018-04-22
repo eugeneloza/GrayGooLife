@@ -91,7 +91,7 @@
         <PackageName Value="castle_base"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="10">
       <Unit0>
         <Filename Value="GrayGooLife.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -130,6 +130,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Global"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="figures.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Figures"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="shapes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Shapes"/>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -24,7 +24,7 @@ unit BattleField;
 interface
 
 uses
-  Global;
+  Global, Shapes, Figures;
 
 const
   CriticalAge = 3; //how many turns will pass before the cell will turn into goo
