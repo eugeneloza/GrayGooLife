@@ -36,8 +36,6 @@ type
 
 implementation
 procedure TFigure.Load(aShape: TShape);
-var
-  ix, iy: integer;
 begin
   FArray := aShape.FArray;
   SizeX := aShape.SizeX;

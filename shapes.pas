@@ -33,6 +33,17 @@ interface
   8 cells and higher
 }
 
+type
+  TShape = record
+    SizeX, SizeY: integer;
+    FArray: array of array of boolean;
+  end;
+
+function GliderShape: TShape;
+function NineShape: TShape;
+function SolarPanelShape: TShape;
+implementation
+
 { basic game shapes placable on the battlefield
   reference of array indexes is inverse: Y-X }
 const
@@ -118,15 +129,6 @@ const
      (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0),
      (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0));
 
-type
-  TShape = record
-    SizeX, SizeY: integer;
-    FArray: array of array of boolean;
-  end;
-
-function GliderShape: TShape;
-implementation
-
 function GliderShape: TShape;
 const
   sx = 3;
@@ -142,6 +144,44 @@ begin
     SetLength(Result.FArray[ix], sy);
     for iy := 0 to Pred(sy) do
       Result.FArray[ix, iy] := Glider[iy, ix] = 1;
+  end;
+end;
+
+//Nine: array [0..3,0..2]
+function NineShape: TShape;
+const
+  sx = 3;
+  sy = 4;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Nine[iy, ix] = 1;
+  end;
+end;
+
+//[0..0,0..2]
+function SolarPanelShape: TShape;
+const
+  sx = 3;
+  sy = 1;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := SolarPanel[iy, ix] = 1;
   end;
 end;
 
