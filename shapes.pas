@@ -118,7 +118,32 @@ const
      (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0),
      (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0));
 
+type
+  TShape = record
+    SizeX, SizeY: integer;
+    FArray: array of array of boolean;
+  end;
+
+function GliderShape: TShape;
 implementation
+
+function GliderShape: TShape;
+const
+  sx = 3;
+  sy = 3;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Glider[iy, ix] = 1;
+  end;
+end;
 
 end.
 

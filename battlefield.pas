@@ -114,6 +114,7 @@ var
   ix: integer;
   iy: integer;
   o: TOwner;
+  m: TFigure;
 begin
   SetLength(Result, aX);
   for ix := 0 to Pred(aX) do
@@ -122,6 +123,8 @@ begin
     for iy := 0 to Pred(aY) do
       Result[ix, iy].Owner := ownerNone
   end;
+
+  m.Load(GliderShape);
 
   o := ownerGreen;
   Result[20, 20].Owner := o;

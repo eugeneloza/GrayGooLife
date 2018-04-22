@@ -29,14 +29,19 @@ uses
 type
   { a figure drawable, draggable and placable on the battlefield }
   TFigure = object
+    SizeX, SizeY: integer;
     FArray: array of array of boolean;
-    procedure Load(aShape: array of const);
+    procedure Load(aShape: TShape);
   end;
 
 implementation
-procedure TFigure.Load(aShape: array of const);
+procedure TFigure.Load(aShape: TShape);
+var
+  ix, iy: integer;
 begin
-
+  FArray := aShape.FArray;
+  SizeX := aShape.SizeX;
+  SizeY := aShape.SizeY;
 end;
 
 end.
