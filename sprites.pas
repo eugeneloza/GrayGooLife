@@ -58,7 +58,7 @@ begin
   Cell[ownerYellow] := TSprite.Create(ApplicationData('Yellow.png'), 10, 10, 1, true, true, true);
   for o in TOwner do
     if Cell[o] <> nil then
-      Cell[o].FramesPerSecond := 10;
+      Cell[o].FramesPerSecond := 10 / SoundBeat / 2;
 end;
 
 procedure FreeSprites;

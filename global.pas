@@ -26,6 +26,9 @@ interface
 uses
   CastleTimeUtils;
 
+const
+  SoundBeat = 60/100; {100bpm}
+
 type
   {ownerNone is an empty cell
    ownerGray is a gray GrayGoo cell

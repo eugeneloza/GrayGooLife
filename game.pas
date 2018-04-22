@@ -30,20 +30,18 @@ implementation
 uses
   GooWindow, CastleWindow, CastleVectors, CastleFilesUtils,
   SysUtils, CastleApplicationProperties, CastleLog, CastleTimeUtils,
+  CastleKeysMouse,
   CastleSoundEngine,
   CastleControls, CastleColors,//for UIFont
   CastleGLUtils,//for RenderContext
   BattleField, Sprites, Global, Player;
-
-const
-  SoundBeat = 60/100; {100bpm}
 
 const MaxBeatZoom = 9;
 
 var
   Buffer: TSoundBuffer;
   Sound: TSound;
-  CurrentBeatZoom: integer = 3;
+  CurrentBeatZoom: integer = 1;
   NextBeat: array [0..MaxBeatZoom] of TFloatTime;
   NextTurn: boolean;
 
