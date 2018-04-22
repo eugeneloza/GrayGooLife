@@ -4,7 +4,7 @@ You can compile the source simply by opening *.lpi in Lazarus IDE (version 1.9 a
 
 #Requirements
 
-This version requires at least 6.5 Castle Game Engine version to compile (at least 21.04.2018 GIT version). You can download it here https://github.com/castle-engine/castle-engine and follow installation instructions here http://castle-engine.sourceforge.net/tutorial_install.php
+This version requires at least 6.5 Castle Game Engine version to compile (at least 22.04.2018 GIT version / or use my current Fork: https://github.com/eugeneloza/castle-engine). You can download it here https://github.com/castle-engine/castle-engine and follow installation instructions here http://castle-engine.sourceforge.net/tutorial_install.php
 FreePascal compiler at least version 3.1.1 is required.
 I recommend using FPC+Lazarus trunk (SVN) version (best after 2018-02-17) due to better Generics.Collections support in recent CodeTools patches.
 You can easily install latest Lazarus+FPC+cross-compilation tools with fpcupdeluxe. See https://github.com/castle-engine/castle-engine/wiki/fpcupdeluxe for more info.

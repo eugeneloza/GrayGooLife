@@ -23,18 +23,54 @@ unit Shapes;
 
 interface
 
+{ Shapes are taken from:
+  https://bitstorm.org/gameoflife/
+  https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+  http://www.conwaylife.com/wiki/Category:Patterns_with_(number)_cells
+
+  todo:
+  http://www.conwaylife.com/wiki/Eater_1
+  8 cells and higher
+}
+
 { basic game shapes placable on the battlefield
   reference of array indexes is inverse: Y-X }
 const
   { a main attack force, cheap and small
     Flight speed: 1 tile per 4 turns diagonal}
   Glider: array [0..2,0..2] of byte = ((0,1,0),(0,0,1),(1,1,1));
+  { a combined defence/offence unit
+    evolves into a glider and a block }
+  Nine: array [0..3,0..2] of byte =
+    ((1,0,0),
+     (1,0,0),
+     (1,0,1),
+     (0,1,1));
+
   { a main power generator
     Period : 2}
   SolarPanel: array [0..0,0..2] of byte = ((1,1,1));
   { main productive force with 4 solar panels
     Unwraps in 9 turns}
   SolarArray: array [0..1,0..2] of byte = ((0,1,0),(1,1,1));
+
+  { Influence generators
+    Period : 2}
+  Toad: array [0..3, 0..3] of byte =
+    ((0,0,1,0),
+     (1,0,0,1),
+     (1,0,0,1),
+     (0,1,0,0));
+  Beacon: array [0..3, 0..3] of byte =
+    ((1,1,0,0),
+     (1,0,0,0),
+     (0,0,0,1),
+     (0,0,1,1));
+  Clock: array [0..3, 0..3] of byte =
+    ((0,1,0,0),
+     (0,0,1,1),
+     (1,1,0,0),
+     (0,0,1,0));
   { a powerful core with 4 (1/3 effective) solar panels
     Unwraps in 26 turns
     Period: 3 }
@@ -54,6 +90,14 @@ const
 
   { Large oscillator (with a few solar panels) }
   Line10: array [0..0,0..9] of byte = ((1,1,1,1,1,1,1,1,1,1));
+  { Tumbler - just a useless oscillator }
+  Tumbler: array [0..5,0..6] of byte =
+    ((0,1,1,0,1,1,0),
+     (0,1,1,0,1,1,0),
+     (0,0,1,0,1,0,0),
+     (1,0,1,0,1,0,1),
+     (1,0,1,0,1,0,1),
+     (1,1,0,0,0,1,1));
 
   { extreme attack force for the enemy
     Fires sequential gliders (first one at turn 73) each 32 turns }
