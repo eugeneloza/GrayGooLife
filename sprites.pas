@@ -32,6 +32,8 @@ var
   Cell: array [TOwner] of TSprite;
   { floor sprite }
   EmptyCell: TGLImage;
+  { cell as it's displayed in shapes selector }
+  FigureCell: TGlImage;
 
 { load/free sprites }
 procedure LoadSprites;
@@ -45,6 +47,8 @@ var
   o: TOwner;
 begin
   EmptyCell := TGlImage.Create(ApplicationData('Empty.png'));
+  FigureCell := TGLImage.Create(ApplicationData('Figure.png'));
+
   Cell[ownerGray] := TSprite.Create(ApplicationData('Goo.png'), 10, 10, 1, true, true, true);
   Cell[ownerGreen] := TSprite.Create(ApplicationData('Green.png'), 10, 10, 1, true, true, true);
   Cell[ownerRed] := TSprite.Create(ApplicationData('Red.png'), 10, 10, 1, true, true, true);
@@ -62,6 +66,7 @@ var
   o: TOwner;
 begin
   FreeAndNil(EmptyCell);
+  FreeAndNil(FigureCell);
   for o in TOwner do
     FreeAndNil(Cell[o]);
 end;
