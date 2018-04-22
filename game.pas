@@ -36,32 +36,67 @@ uses
   BattleField, Sprites, Global, Player;
 
 const
-  SoundBeat = 60/100/2; {100bpm}
+  SoundBeat = 60/100; {100bpm}
+
+const MaxBeatZoom = 9;
 
 var
   Buffer: TSoundBuffer;
-  NextBeat: TFloatTime;
+  Sound: TSound;
+  CurrentBeatZoom: integer = 3;
+  NextBeat: array [0..MaxBeatZoom] of TFloatTime;
+  NextTurn: boolean;
+
+{ advance time at all beat levels }
+procedure doTime;
+var
+  i: integer;
+  function BeatMult(const aBeatNum: integer): single;
+  begin
+    if aBeatNum = 0 then
+      Result := 2
+    else
+      Result := 1 / aBeatNum;
+  end;
+begin
+  //init time and start playing music
+  if TotalTime < 0 then
+  begin
+    for i := 0 to MaxBeatZoom do
+      NextBeat[i] := SoundBeat * BeatMult(i);
+    {if stop playing music we'll go off-sync, but that's a rare case so I don't care :)}
+    //Sound := SoundEngine.PlaySound(Buffer, false, true, 0, 1, 1, 1, Vector3(0,0,0));
+    TotalTime := 0;
+  end;
+
+  //advance time by frame duration
+  DeltaTime := Window.Fps.SecondsPassed;
+  TotalTime += DeltaTime;
+
+  {despite changing time flow speed, action would always be in sync with music
+   all beats go sync to SoundBeat }
+  NextTurn := false;
+  for i := 0 to MaxBeatZoom do
+    if TotalTime > NextBeat[i] then
+    begin
+      NextBeat[i] += SoundBeat * BeatMult(i);
+      if i = CurrentBeatZoom then
+        NextTurn := true;
+    end;
+
+end;
 
 procedure doRender(Container: TUIContainer);
 begin
   RenderContext.Clear([cbColor], Black);
 
-  DeltaTime := Window.Fps.SecondsPassed;
+  DoTime;
 
   if Life <> nil then
+  begin
     Life.Draw;
-
-  if TotalTime < 0 then
-  begin
-    NextBeat := SoundBeat;
-    //SoundEngine.PlaySound(Buffer, false, true, 0, 1, 1, 1, Vector3(0,0,0));
-    TotalTime := 0;
-  end;
-  TotalTime += DeltaTime;
-  if TotalTime > NextBeat then
-  begin
-    NextBeat += SoundBeat;
-    Life.NextTurn;
+    if NextTurn then
+      Life.NextTurn;
   end;
 
   //ui
