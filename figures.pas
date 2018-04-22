@@ -28,11 +28,16 @@ uses
 
 type
   { a figure drawable, draggable and placable on the battlefield }
-  TFigure = class(TObject)
-
+  TFigure = object
+    FArray: array of array of boolean;
+    procedure Load(aShape: array of const);
   end;
 
 implementation
+procedure TFigure.Load(aShape: array of const);
+begin
+
+end;
 
 end.
 
