@@ -42,6 +42,15 @@ type
 function GliderShape: TShape;
 function NineShape: TShape;
 function SolarPanelShape: TShape;
+function SolarArrayShape: TShape;
+function ToadShape: TShape;
+function BeaconShape: TShape;
+function ClockShape: TShape;
+function BaseUnpackerShape: TShape;
+function LWSSShape: TShape;
+function Line10Shape: TShape;
+function TumblerShape: TShape;
+function GosperGunShape: TShape;
 implementation
 
 { basic game shapes placable on the battlefield
@@ -182,6 +191,171 @@ begin
     SetLength(Result.FArray[ix], sy);
     for iy := 0 to Pred(sy) do
       Result.FArray[ix, iy] := SolarPanel[iy, ix] = 1;
+  end;
+end;
+
+//[0..1,0..2]
+function SolarArrayShape: TShape;
+const
+  sx = 3;
+  sy = 2;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := SolarArray[iy, ix] = 1;
+  end;
+end;
+
+
+function ToadShape: TShape;
+const
+  sx = 4;
+  sy = 4;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Toad[iy, ix] = 1;
+  end;
+end;
+
+
+function BeaconShape: TShape;
+const
+  sx = 4;
+  sy = 4;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Beacon[iy, ix] = 1;
+  end;
+end;
+
+function ClockShape: TShape;
+const
+  sx = 4;
+  sy = 4;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Clock[iy, ix] = 1;
+  end;
+end;
+
+function BaseUnpackerShape: TShape;
+const
+  sx = 5;
+  sy = 5;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := BaseUnpacker[iy, ix] = 1;
+  end;
+end;
+
+function LWSSShape: TShape;
+const
+  sx = 5;
+  sy = 4;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := LWSS[iy, ix] = 1;
+  end;
+end;
+
+function Line10Shape: TShape;
+const
+  sx = 10;
+  sy = 1;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Line10[iy, ix] = 1;
+  end;
+end;
+
+function TumblerShape: TShape;
+const
+  sx = 6;
+  sy = 7;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := Tumbler[iy, ix] = 1;
+  end;
+end;
+
+function GosperGunShape: TShape;
+const
+  sx = 38;
+  sy = 15;
+var
+  ix, iy: integer;
+begin
+  Result.SizeX := sx;
+  Result.SizeY := sy;
+  SetLength(Result.FArray, sx);
+  for ix := 0 to Pred(sx) do
+  begin
+    SetLength(Result.FArray[ix], sy);
+    for iy := 0 to Pred(sy) do
+      Result.FArray[ix, iy] := GosperGun[iy, ix] = 1;
   end;
 end;
 
