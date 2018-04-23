@@ -6,6 +6,7 @@ Compiles to: Windows, Linux, Android
 
 The game is a mix between a well-known Life game and real-time strategy written in Free Pascal + Lazarus + Castle Game Engine.
 Player can spawn Life game objects in the battlefield to destroy enemies and eliminate gray goo.
+(Surely I'm late for Ludum Dare 41, but let's have fun anyway :))
 
 # Rules
 
