@@ -41,7 +41,7 @@ const MaxBeatZoom = 9;
 var
   Buffer: TSoundBuffer;
   Sound: TSound;
-  CurrentBeatZoom: integer = 1;
+  CurrentBeatZoom: integer = 4;
   NextBeat: array [0..MaxBeatZoom] of TFloatTime;
   NextTurn: boolean;
 
@@ -63,7 +63,7 @@ begin
     for i := 0 to MaxBeatZoom do
       NextBeat[i] := SoundBeat * BeatMult(i);
     {if stop playing music we'll go off-sync, but that's a rare case so I don't care :)}
-    //Sound := SoundEngine.PlaySound(Buffer, false, true, 0, 1, 1, 1, Vector3(0,0,0));
+    Sound := SoundEngine.PlaySound(Buffer, false, true, 0, 1, 1, 1, Vector3(0,0,0));
     TotalTime := 0;
   end;
 

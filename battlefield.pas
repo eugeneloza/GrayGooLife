@@ -63,6 +63,8 @@ type
     procedure NextTurn;
     { draw the game screen }
     procedure Draw;
+
+    procedure AddFigure(const aFigure: TFigure; const aOwner: TOwner; const aX, aY: integer);
   end;
 
 
@@ -71,7 +73,8 @@ var
 
 implementation
 uses
-  CastleRandom, CastleVectors,
+  SysUtils,
+  CastleRandom, CastleVectors, CastleLog,
   GooWindow, Sprites, Player;
 
 procedure TBattleField.DrawCell(const aX, aY: integer);
@@ -113,8 +116,6 @@ function TBattleField.ZeroArray(const aX, aY: integer): TBattleFieldArray;
 var
   ix: integer;
   iy: integer;
-  o: TOwner;
-  m: TFigure;
 begin
   SetLength(Result, aX);
   for ix := 0 to Pred(aX) do
@@ -123,38 +124,28 @@ begin
     for iy := 0 to Pred(aY) do
       Result[ix, iy].Owner := ownerNone
   end;
+end;
 
-  m.Load(GliderShape);
+{----------------------------------------------------------------------------}
 
-  o := ownerGreen;
-  Result[20, 20].Owner := o;
-  Result[21, 20].Owner := o;
-  Result[22, 20].Owner := o;
-  Result[21, 21].Owner := o;
-
-  o := ownerRed;
-  Result[25, 25].Owner := o;
-  Result[26, 25].Owner := o;
-  Result[27, 25].Owner := o;
-  Result[26, 26].Owner := o;
-
-  o := ownerBlue;
-  Result[30, 22].Owner := o;
-  Result[31, 22].Owner := o;
-  Result[32, 22].Owner := o;
-  Result[31, 23].Owner := o;
-
-  o := ownerYellow;
-  Result[14, 22].Owner := o;
-  Result[15, 22].Owner := o;
-  Result[16, 22].Owner := o;
-  Result[15, 23].Owner := o;
-
-  o := ownerCyan;
-  Result[14, 17].Owner := o;
-  Result[15, 17].Owner := o;
-  Result[16, 17].Owner := o;
-  Result[15, 18].Owner := o;
+procedure TBattleField.AddFigure(const aFigure: TFigure; const aOwner: TOwner; const aX, aY: integer);
+var
+  ix, iy: integer;
+begin
+  for ix := 0 to Pred(aFigure.SizeX) do
+    for iy := 0 to Pred(aFigure.SizeY) do
+      if (aX + ix >= 0) and (aX + ix < Self.SizeX) and
+         (aY + iy >= 0) and (aY + iy < Self.SizeY) then
+      begin
+        if aFigure.FArray[ix, iy] then
+        begin
+          WriteLnLog(IntToStr(ax + ix), IntToStr(ay+iy));
+          Self.FArray[aX + ix, aY + iy].Owner := aOwner;
+          Self.FArray[aX + ix, aY + iy].Age := 0;
+        end;
+      end
+      else
+        WriteLnLog('TBattleField.AddFigure', 'Figure is placed beyond the BattleField size');
 end;
 
 {----------------------------------------------------------------------------}
@@ -298,9 +289,15 @@ begin
 end;
 
 procedure TBattleField.Clear;
+var
+  m: TFigure;
 begin
   isInitialized := true;
   FArray := ZeroArray(SizeX, SizeY);
+
+  m.Load(GosperGunShape);
+  AddFigure(m, ownerBlue, 1, 10);
+
 end;
 
 
